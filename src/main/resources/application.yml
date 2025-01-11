@@ -1,0 +1,48 @@
+spring:
+  application.name: gsk-16-mock-server
+  data:
+    mongodb:
+      uuid-representation: standard
+      uri: mongodb://localhost:27017/test-mongo
+
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      base-path: /management
+      exposure:
+        include: health
+
+wiremock:
+  port: 8088
+  mappings:
+    - >
+      {
+         "priority": 1000,
+         "request": {
+           "method": "GET",
+           "urlPath": "/yandex"
+         },
+         "response": {
+           "proxyBaseUrl": "https://yandex.ru"
+         },
+         "metadata": {
+           "name": "Реальный вызов Yandex"
+         }
+      }
+    - >
+      {
+         "priority": 1000,
+         "request": {
+           "method": "POST",
+           "urlPath": "/google"
+         },
+         "response": {
+           "proxyBaseUrl": "https://google.com"
+         },
+         "metadata": {
+           "name": "Реальный вызов Google"
+         }
+      }   
